@@ -52,9 +52,9 @@ class GithubPRCommentManager {
             }
             if (this.previousComment === null) {
                 logger_1.default.debug('Loading previous comment ...');
-                const comment = yield pulls_1.getLastCommentMatching(this.repositoryOwner, this.repositoryName, this.prId, new RegExp('^'
+                const comment = yield (0, pulls_1.getLastCommentMatching)(this.repositoryOwner, this.repositoryName, this.prId, new RegExp('^'
                     + comment_body_1.COMMENT_HEADER.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
-                    + comment_body_1.commentPkgTypeFactory(this.packageManagerType)));
+                    + (0, comment_body_1.commentPkgTypeFactory)(this.packageManagerType)));
                 const match = (_a = comment === null || comment === void 0 ? void 0 : comment.body) === null || _a === void 0 ? void 0 : _a.match(new RegExp(comment_body_1.COMMENT_COMMIT_REGEXP));
                 if (!comment || !match) {
                     this.previousComment = undefined;
@@ -72,7 +72,7 @@ class GithubPRCommentManager {
             if (!this.postResults) {
                 return;
             }
-            const commentBody = comment_body_1.default(this.packageManagerType, commitSha, packagesDiff);
+            const commentBody = (0, comment_body_1.default)(this.packageManagerType, commitSha, packagesDiff);
             const previousComment = yield this.getPrevious();
             if (previousComment) {
                 // Remove first line of each bodies as they contains commit information (and so can't never match)
@@ -86,7 +86,7 @@ class GithubPRCommentManager {
             }
             yield this.deletePreviousIfExisting();
             logger_1.default.debug('Posting comment ...');
-            return pulls_1.createComment(this.repositoryOwner, this.repositoryName, this.prId, commentBody);
+            return (0, pulls_1.createComment)(this.repositoryOwner, this.repositoryName, this.prId, commentBody);
         });
     }
     deletePreviousIfExisting() {
@@ -94,7 +94,7 @@ class GithubPRCommentManager {
             const previousComment = yield this.getPrevious();
             if (previousComment) {
                 logger_1.default.info('Removing previous comment ...');
-                return pulls_1.deleteComment(this.repositoryOwner, this.repositoryName, previousComment.id);
+                return (0, pulls_1.deleteComment)(this.repositoryOwner, this.repositoryName, previousComment.id);
             }
         });
     }

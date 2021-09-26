@@ -43,23 +43,23 @@ function run() {
             if (undefined === repositoryData) {
                 throw new Error("Repository context is undefined !");
             }
-            const packageManagerType = core_1.getInput("manager", {
+            const packageManagerType = (0, core_1.getInput)("manager", {
                 required: true,
                 trimWhitespace: true,
             });
-            const contextType = core_1.getInput("context", {
+            const contextType = (0, core_1.getInput)("context", {
                 required: true,
                 trimWhitespace: true,
             });
-            const postResults = core_1.getBooleanInput("post-results", {
+            const postResults = (0, core_1.getBooleanInput)("post-results", {
                 required: true,
                 trimWhitespace: true,
             });
-            const force = core_1.getBooleanInput("force", {
+            const force = (0, core_1.getBooleanInput)("force", {
                 required: true,
                 trimWhitespace: true,
             });
-            const behavior = utils_1.behaviorFactory(contextType, repositoryData, github_1.context.payload, packageManagerType, postResults, force);
+            const behavior = (0, utils_1.behaviorFactory)(contextType, repositoryData, github_1.context.payload, packageManagerType, postResults, force);
             const packagesDiff = yield behavior.execute();
             core.setOutput("diff", packagesDiff);
         }

@@ -27,7 +27,7 @@ class GithubPRBehavior {
         this.baseCommitSha = payload.base.sha;
         this.headCommitSha = payload.head.sha;
         this.force = force;
-        this.packageManager = utils_1.packageManagerFactory(packageManagerType);
+        this.packageManager = (0, utils_1.packageManagerFactory)(packageManagerType);
         this.githubFileManager = new GithubFileManager_1.GithubFileManager(repositoryOwner, repositoryName);
         this.githubCommentManager = new GithubPRCommentManager_1.GithubPRCommentManager(repositoryOwner, repositoryName, this.prId, packageManagerType, postResults);
     }

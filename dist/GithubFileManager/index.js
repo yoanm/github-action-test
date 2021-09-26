@@ -21,7 +21,7 @@ class GithubFileManager {
         return __awaiter(this, void 0, void 0, function* () {
             // Get updated files from PR and not from last commit !
             // action has to be executed if any commit from the PR update the file, not only the last commit
-            const file = yield pulls_1.getFile(this.repositoryOwner, this.repositoryName, prNumber, filename);
+            const file = yield (0, pulls_1.getFile)(this.repositoryOwner, this.repositoryName, prNumber, filename);
             if (!file || !fileStatusFilter) {
                 return file;
             }
@@ -30,7 +30,7 @@ class GithubFileManager {
     }
     getFileBetween(filename, baseSha, headSha, fileStatusFilter = undefined) {
         return __awaiter(this, void 0, void 0, function* () {
-            const file = yield contents_1.getFileBetween(this.repositoryOwner, this.repositoryName, baseSha, headSha, filename);
+            const file = yield (0, contents_1.getFileBetween)(this.repositoryOwner, this.repositoryName, baseSha, headSha, filename);
             if (!file || !fileStatusFilter) {
                 return file;
             }
@@ -50,7 +50,7 @@ class GithubFileManager {
     }
     getFileContentAt(filename, commitSha) {
         return __awaiter(this, void 0, void 0, function* () {
-            const data = yield contents_1.getFile(this.repositoryOwner, this.repositoryName, filename, commitSha);
+            const data = yield (0, contents_1.getFile)(this.repositoryOwner, this.repositoryName, filename, commitSha);
             if (data === undefined) {
                 return undefined;
             }

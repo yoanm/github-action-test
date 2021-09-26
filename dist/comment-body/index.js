@@ -8,19 +8,19 @@ exports.COMMENT_COMMIT_REGEXP = '<\!\-\- commit="([^"]+)" \-\->';
 const commentPkgTypeFactory = (packageManagerType) => `<!-- type="${packageManagerType}" -->`;
 exports.commentPkgTypeFactory = commentPkgTypeFactory;
 function createBody(packageManagerType, commit, packagesDiff) {
-    const updatedPackageDiffList = packagesDiff.filter(utils_1.isDiffTypeFilter('UPDATED'));
-    return `${exports.COMMENT_HEADER}${exports.commentPkgTypeFactory(packageManagerType)}<!-- commit="${commit}" --> \n`
+    const updatedPackageDiffList = packagesDiff.filter((0, utils_1.isDiffTypeFilter)('UPDATED'));
+    return `${exports.COMMENT_HEADER}${(0, exports.commentPkgTypeFactory)(packageManagerType)}<!-- commit="${commit}" --> \n`
         + `# 🔎 ${getPackageManagerName(packageManagerType)} packages versions checker 🔍 \n`
         + '\n'
-        + sections_1.createRiskyUpdatesBody(updatedPackageDiffList)
-        + sections_1.createMinorVersionUpdatesBody(updatedPackageDiffList)
-        + sections_1.createPatchVersionUpdatesBody(updatedPackageDiffList)
-        + sections_1.createAddedAndRemovedBody([
-            ...packagesDiff.filter(utils_1.isDiffTypeFilter('ADDED')),
-            ...packagesDiff.filter(utils_1.isDiffTypeFilter('REMOVED')),
+        + (0, sections_1.createRiskyUpdatesBody)(updatedPackageDiffList)
+        + (0, sections_1.createMinorVersionUpdatesBody)(updatedPackageDiffList)
+        + (0, sections_1.createPatchVersionUpdatesBody)(updatedPackageDiffList)
+        + (0, sections_1.createAddedAndRemovedBody)([
+            ...packagesDiff.filter((0, utils_1.isDiffTypeFilter)('ADDED')),
+            ...packagesDiff.filter((0, utils_1.isDiffTypeFilter)('REMOVED')),
         ])
-        + sections_1.createUnknownBody(packagesDiff.filter(utils_1.isDiffTypeFilter('UNKNOWN')))
-        + sections_1.createCaptionBody();
+        + (0, sections_1.createUnknownBody)(packagesDiff.filter((0, utils_1.isDiffTypeFilter)('UNKNOWN')))
+        + (0, sections_1.createCaptionBody)();
 }
 exports.default = createBody;
 function getPackageManagerName(packageManagerType) {
