@@ -49,7 +49,7 @@ function createAddedAndRemovedBody(packagesDiff) {
     }
     const addedPackageList = packagesDiff.filter(utils_1.isDiffTypeFilter('ADDED'));
     const removedPackageList = packagesDiff.filter(utils_1.isDiffTypeFilter('REMOVED'));
-    // Can't use createDiffTableBody as there two differents type, AddedPackageDiff and RemovedPackageDiff types !
+    // Can't use createDiffTableBody as there two different types, AddedPackageDiff and RemovedPackageDiff types !
     return utils_1.createDiffTableBody([addedPackageList, removedPackageList], `${addedPackageList.length} package${addedPackageList.length > 1 ? 's' : ''} added & ${removedPackageList.length} package${removedPackageList.length > 1 ? 's' : ''} removed`, ['Name', 'Version'], [':---', ':---'], item => {
         if (utils_1.isDiffTypeFilter('ADDED')(item)) {
             return ['➕', utils_1.displayName(item), utils_1.displayVersion(item.current)];

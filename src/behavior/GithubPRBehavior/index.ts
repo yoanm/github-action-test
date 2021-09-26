@@ -95,7 +95,7 @@ export class GithubPRBehavior implements Behavior{
             );
 
             if (lockFile === undefined) {
-                logger.info(this.packageManager.getLockFilename() + ' not updated since last review !');
+                logger.info(this.packageManager.getLockFilename() + ' not updated since last comment !');
             }
         } else {
             logger.debug('Checking if lock file has been updated on PR ...');

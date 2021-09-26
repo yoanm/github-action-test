@@ -65,7 +65,7 @@ class GithubPRBehavior {
                 logger_1.default.debug('Checking if lock file has been updated since last PR comment ...');
                 lockFile = yield this.githubFileManager.getFileBetween(this.packageManager.getLockFilename(), previousComment.commitRef, this.headCommitSha, ['modified', 'added', 'removed']);
                 if (lockFile === undefined) {
-                    logger_1.default.info(this.packageManager.getLockFilename() + ' not updated since last review !');
+                    logger_1.default.info(this.packageManager.getLockFilename() + ' not updated since last comment !');
                 }
             }
             else {

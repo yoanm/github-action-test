@@ -7,9 +7,5 @@ declare module "GithubApi" {
 
     export type File = Endpoints['GET /repos/{owner}/{repo}/pulls/{pull_number}/files']['response']['data'][number];
 
-    export type CommitsComparison = Endpoints['GET /repos/{owner}/{repo}/compare/{basehead}']['response']['data'];
-
-    export type ReviewComment = Endpoints['GET /repos/{owner}/{repo}/pulls/{pull_number}/comments']['response']['data'][number];
-    export type Review = Endpoints['GET /repos/{owner}/{repo}/pulls/{pull_number}/reviews']['response']['data'][number];
     export type Comment = Endpoints['GET /repos/{owner}/{repo}/issues/{issue_number}/comments']['response']['data'][number];
 }
