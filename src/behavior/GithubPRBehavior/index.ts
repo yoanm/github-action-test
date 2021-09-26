@@ -80,7 +80,6 @@ export class GithubPRBehavior implements Behavior{
         let lockFile: File | undefined;
         const previousComment = await this.githubCommentManager.getPrevious();
         logger.debug(`Previous comment found ? ${previousComment === undefined ? 'N' : 'Y'}`);
-        console.log({previousComment});
 
         const isJobRestartedOnSameCommitAsPreviousComment: boolean = previousComment?.commitRef === this.headCommitSha;
         logger.debug(`Job restarted on same commit as previous comment ? ${isJobRestartedOnSameCommitAsPreviousComment ? 'Y' : 'N'}`);

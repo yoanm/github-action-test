@@ -58,7 +58,6 @@ class GithubPRBehavior {
             let lockFile;
             const previousComment = yield this.githubCommentManager.getPrevious();
             logger_1.default.debug(`Previous comment found ? ${previousComment === undefined ? 'N' : 'Y'}`);
-            console.log({ previousComment });
             const isJobRestartedOnSameCommitAsPreviousComment = (previousComment === null || previousComment === void 0 ? void 0 : previousComment.commitRef) === this.headCommitSha;
             logger_1.default.debug(`Job restarted on same commit as previous comment ? ${isJobRestartedOnSameCommitAsPreviousComment ? 'Y' : 'N'}`);
             if (!this.force && previousComment !== undefined && !isJobRestartedOnSameCommitAsPreviousComment) {
