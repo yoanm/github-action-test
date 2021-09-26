@@ -1,17 +1,18 @@
-import {PackageManagerType} from "PackageManager";
-import Composer from "./PackageManager/Composer";
-import {GithubPRBehavior} from "./GithubPRBehavior";
 import {PayloadRepository, WebhookPayload} from "@actions/github/lib/interfaces";
+import {Behavior} from "Behavior";
+import {PackageManagerType} from "PackageManager";
+import {GithubPRBehavior} from "./behavior/GithubPRBehavior";
 import logger from "./logger";
+import Composer from "./PackageManager/Composer";
 
 export function behaviorFactory(
     contextType: string,
     repositoryData: PayloadRepository,
     webHookPayload: WebhookPayload,
     packageManagerType: PackageManagerType,
-    postComment: boolean,
+    postResults: boolean,
     force: boolean,
-) {
+): Behavior {
   switch (contextType) {
     case 'PR':
       logger.debug('Using PR behavior!');
@@ -20,7 +21,7 @@ export function behaviorFactory(
           repositoryData.name,
           webHookPayload.pull_request,
           packageManagerType,
-          postComment,
+          postResults,
           force,
       );
   }
@@ -35,6 +36,6 @@ export function packageManagerFactory(packageManagerType: PackageManagerType): C
       return new Composer();
   }
 
-  throw new Error('Package manager type "'+packageManagerType+'" is not supported !');
+  throw new Error(`Package manager type "${packageManagerType}" is not supported !`);
 }
 

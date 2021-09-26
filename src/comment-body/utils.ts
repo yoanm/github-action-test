@@ -1,12 +1,12 @@
-import {PackageVersion, PackageVersionDiff} from "PackageVersionDiffListCreator";
 import {TableRowDataProvider} from "CommentBody";
+import {PackageVersion, PackageVersionDiff} from "PackageVersionDiffListCreator";
 
 /**
  * Will return a function used to retrieve only T type objects
  */
 export function isDiffTypeFilter<T extends PackageVersionDiff>(updateType: T["update"]["type"]) {
     return function (item: PackageVersionDiff): item is T {
-        return (<T>item).update.type === updateType;
+        return (item as T).update.type === updateType;
     };
 }
 

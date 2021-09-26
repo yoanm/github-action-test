@@ -6,7 +6,7 @@ description: |
   In case lock file is updated, action will output versions differences as PR comment
   Action requires at least following permissions:
    - "pull-requests: write": Used to know if lock file has been updated or not and manage result comment
-     - In case you set `post-comment` at `false`, read access is enough (`pull-requests: read`)
+     - In case you set `post-results` at `false`, read access is enough (`pull-requests: read`)
    - "contents: read": Used to fetch old and current package manager files
 inputs:
   gh-token:
@@ -21,7 +21,7 @@ inputs:
     required: true
     description: "Whether it's PR or tag event (Available: \"PR\")"
     default: "PR"
-  post-comment:
+  post-results:
     required: true
     description: "Whether to post results as comment (\"true\" | \"false\")"
     default: "true"

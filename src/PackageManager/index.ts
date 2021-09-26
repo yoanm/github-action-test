@@ -1,4 +1,3 @@
-import {PackageVersion} from "PackageVersionDiffListCreator";
 import {
     LockFile as BaseLockFile,
     LockPackage as BaseLockPackage,
@@ -6,6 +5,7 @@ import {
     PackageList,
     RequirementFile as BaseRequirementFile,
 } from "PackageManager";
+import {PackageVersion} from "PackageVersionDiffListCreator";
 
 
 export default abstract class PackageManager<

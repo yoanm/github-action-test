@@ -18,7 +18,7 @@ export function createRiskyUpdatesBody(packagesDiff: UpdatedPackageDiff[]): stri
 
     return createDiffTableBody<UpdatedPackageDiff>(
         [majorUpdateList, unknownUpdateList],
-        totalCount + ' risky update' + (totalCount > 1 ? 's' : ''),
+        `${totalCount} risky update${totalCount > 1 ? 's' : ''}`,
         ['Name', 'From', '  ', 'To'],
         [':---', '---:', ':---:', '---:'],
         item => [
@@ -39,7 +39,7 @@ export function createMinorVersionUpdatesBody(packagesDiff: UpdatedPackageDiff[]
 
     return createDiffTableBody<UpdatedPackageDiff>(
         [list],
-        list.length + ' minor version update' + (list.length > 1 ? 's' : ''),
+        `${list.length} minor version update${list.length > 1 ? 's' : ''}`,
         ['Name', 'From', '  ', 'To'],
         [':---', '---:', ':---:', '---:'],
         item => [
@@ -60,7 +60,7 @@ export function createPatchVersionUpdatesBody(packagesDiff: UpdatedPackageDiff[]
 
     return createDiffTableBody<UpdatedPackageDiff>(
         [list],
-        list.length + ' patch version update' + (list.length > 1 ? 's' : ''),
+        `${list.length} patch version update${list.length > 1 ? 's' : ''}`,
         ['Name', 'From', '  ', 'To'],
         [':---', '---:', ':---:', '---:'],
         item => [
@@ -83,8 +83,7 @@ export function createAddedAndRemovedBody(packagesDiff: (AddedPackageDiff|Remove
     // Can't use createDiffTableBody as there two differents type, AddedPackageDiff and RemovedPackageDiff types !
     return createDiffTableBody<AddedPackageDiff|RemovedPackageDiff>(
         [addedPackageList, removedPackageList],
-        addedPackageList.length + ' package' + (addedPackageList.length > 1 ? 's' : '') + ' added'
-            + ' & ' + removedPackageList.length + ' package' + (removedPackageList.length > 1 ? 's' : '') + ' removed',
+        `${addedPackageList.length} package${addedPackageList.length > 1 ? 's' : ''} added & ${removedPackageList.length} package${removedPackageList.length > 1 ? 's' : ''} removed`,
         ['Name', 'Version'],
         [':---', ':---'],
         item => {
@@ -104,7 +103,7 @@ export function createUnknownBody(packagesDiff: UnknownUpdatePackageDiff[]): str
 
     return createDiffTableBody<UnknownUpdatePackageDiff>(
         [packagesDiff],
-        packagesDiff.length + ' unknown operation' + (packagesDiff.length > 1 ? 's' : ''),
+        `${packagesDiff.length} unknown operation${packagesDiff.length > 1 ? 's' : ''}`,
         ['Name'],
         [':---'],
         item => [displayName(item)],

@@ -10,8 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GithubFileManager = void 0;
-const pulls_1 = require("../github-api/pulls");
 const contents_1 = require("../github-api/contents");
+const pulls_1 = require("../github-api/pulls");
 class GithubFileManager {
     constructor(repositoryOwner, repositoryName) {
         this.repositoryOwner = repositoryOwner;
@@ -40,8 +40,7 @@ class GithubFileManager {
     filterFiles(filename, fileList, fileStatusFilter = undefined) {
         return __awaiter(this, void 0, void 0, function* () {
             const result = [];
-            for (let i = 0; i < fileList.length; i++) {
-                const file = fileList[i];
+            for (const file of fileList) {
                 if (filename === file.filename && fileStatusFilter ? fileStatusFilter.includes(file.status) : true) {
                     result.push(file);
                 }

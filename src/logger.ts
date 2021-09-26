@@ -5,6 +5,6 @@ const logger: Logger = {
     info,
     error,
     debug,
-}
+};
 
 export default logger;

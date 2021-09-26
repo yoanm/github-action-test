@@ -1,17 +1,17 @@
 declare module "Composer" {
     import {LockFile, LockPackage, RequirementFile} from "PackageManager";
 
-    export interface ComposerFile extends RequirementFile {
+    export type ComposerFile = RequirementFile & {
         require?: RequirementList,
         'require-dev'?: RequirementList,
-    }
+    };
 
-    export interface ComposerLockFile extends LockFile {
+    export type ComposerLockFile = LockFile & {
         packages?: ComposerLockPackage[],
         'packages-dev'?: ComposerLockPackage[],
-    }
+    };
 
-    export interface ComposerLockPackage extends LockPackage {
+    export type ComposerLockPackage = LockPackage & {
         name: string,
         version: string,
         dist: {
@@ -20,7 +20,7 @@ declare module "Composer" {
         support?: {
             source?: string | undefined;
         }
-    }
+    };
 
     export type MetaComposerLockPackage = ComposerLockPackage & {
         isDevRequirement: boolean;

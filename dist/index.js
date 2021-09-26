@@ -41,19 +41,31 @@ function run() {
         try {
             const repositoryData = github_1.context.payload.repository;
             if (undefined === repositoryData) {
-                throw new Error('Repository context is undefined !');
+                throw new Error("Repository context is undefined !");
             }
-            const packageManagerType = core_1.getInput('manager', { required: true, trimWhitespace: true });
-            const contextType = core_1.getInput('context', { required: true, trimWhitespace: true });
-            const postComment = core_1.getBooleanInput('post-comment', { required: true, trimWhitespace: true });
-            const force = core_1.getBooleanInput('force', { required: true, trimWhitespace: true });
-            const behavior = utils_1.behaviorFactory(contextType, repositoryData, github_1.context.payload, packageManagerType, postComment, force);
+            const packageManagerType = core_1.getInput("manager", {
+                required: true,
+                trimWhitespace: true,
+            });
+            const contextType = core_1.getInput("context", {
+                required: true,
+                trimWhitespace: true,
+            });
+            const postResults = core_1.getBooleanInput("post-results", {
+                required: true,
+                trimWhitespace: true,
+            });
+            const force = core_1.getBooleanInput("force", {
+                required: true,
+                trimWhitespace: true,
+            });
+            const behavior = utils_1.behaviorFactory(contextType, repositoryData, github_1.context.payload, packageManagerType, postResults, force);
             const packagesDiff = yield behavior.execute();
-            core.setOutput('diff', packagesDiff);
+            core.setOutput("diff", packagesDiff);
         }
         catch (error) {
             logger_1.default.error(error instanceof Error ? error : `Unknown error ! ${error}`);
-            core.setFailed('An error occured ! See log above.');
+            core.setFailed("An error occurred ! See log above.");
         }
     });
 }

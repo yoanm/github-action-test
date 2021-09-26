@@ -1,3 +1,4 @@
+import {PackageManagerType} from "PackageManager";
 import {
     AddedPackageDiff,
     PackageVersionDiff,
@@ -14,12 +15,10 @@ import {
     createUnknownBody
 } from "./sections";
 import {isDiffTypeFilter} from "./utils";
-import Composer from "../PackageManager/Composer";
-import {PackageManagerType} from "PackageManager";
 
 export const COMMENT_HEADER = '<!-- packagesVersionsChecker -->';
-export const COMMENT_COMMIT_REGEXP = '<\!\-\- commit="([^"]+)" \-\->'
-export const commentPkgTypeFactory = (packageManagerType: PackageManagerType) => `<!-- type="${packageManagerType}" -->`;
+export const COMMENT_COMMIT_REGEXP = '<\!\-\- commit="([^"]+)" \-\->';
+export const commentPkgTypeFactory = (packageManagerType: PackageManagerType): string => `<!-- type="${packageManagerType}" -->`;
 
 export default function createBody(packageManagerType: PackageManagerType, commit: string, packagesDiff: PackageVersionDiff[]): string {
     const updatedPackageDiffList = packagesDiff.filter(isDiffTypeFilter<UpdatedPackageDiff>('UPDATED'));

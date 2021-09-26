@@ -1,4 +1,4 @@
-import BasePackageManager from "../PackageManager";
+import {LockFile, LockPackage, RequirementFile} from "PackageManager";
 import {
     PackageVersion,
     PackageVersionDiff,
@@ -7,8 +7,8 @@ import {
     UpdateSubType,
     UpdateType
 } from "PackageVersionDiffListCreator";
-import {LockFile, LockPackage, RequirementFile} from "PackageManager";
 import {GithubFileManager} from "../GithubFileManager";
+import BasePackageManager from "../PackageManager";
 
 export default class PackageVersionDiffListCreator<
     PackageManager extends BasePackageManager<RequirementFile, LockFile, LockPackage>,
@@ -54,10 +54,10 @@ export default class PackageVersionDiffListCreator<
                     return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0);
                 }
 
-                return (!a.isRootDevRequirement && b.isRootDevRequirement) ? 1 : ((a.isRootDevRequirement && !b.isRootDevRequirement) ? -1 : 0)
+                return (!a.isRootDevRequirement && b.isRootDevRequirement) ? 1 : ((a.isRootDevRequirement && !b.isRootDevRequirement) ? -1 : 0);
             }
 
-            return (!a.isRootRequirement && b.isRootRequirement) ? 1 : ((a.isRootRequirement && !b.isRootRequirement) ? -1 : 0)
+            return (!a.isRootRequirement && b.isRootRequirement) ? 1 : ((a.isRootRequirement && !b.isRootRequirement) ? -1 : 0);
         });
 
         return list;
@@ -82,7 +82,7 @@ export default class PackageVersionDiffListCreator<
         const [previousLockPackageList, currentLockPackageList] = await Promise.all([
             previousLockFile ? this.packageManager.extractLockPackageList(previousLockFile) : {},
             currentLockFile ? this.packageManager.extractLockPackageList(currentLockFile) : {},
-        ])
+        ]);
 
         // Loop over current to find Added / Updated + all other packages
         Object.keys(currentLockPackageList).forEach(packageName => {
@@ -92,7 +92,7 @@ export default class PackageVersionDiffListCreator<
                 this.createPackageDiff(
                     packageName,
                     previousLockPackageList ? previousLockPackageList[packageName] : undefined,
-                    currentLockPackageList[packageName]!,
+                    currentLockPackageList[packageName],
                     previousRequirementFile,
                     currentRequirementFile,
                 )
@@ -107,7 +107,7 @@ export default class PackageVersionDiffListCreator<
                 promiseList.push(
                     this.createPackageDiff(
                         packageName,
-                        previousLockPackageList[packageName]!,
+                        previousLockPackageList[packageName],
                         currentLockPackageList ? currentLockPackageList[packageName] : undefined,
                         previousRequirementFile,
                         currentRequirementFile,
@@ -140,8 +140,8 @@ export default class PackageVersionDiffListCreator<
         const updateType: UpdateType = this.getUpdateType(previousVersionData, currentVersionData);
 
         const isRemoval = currentLockPackage === undefined;
-        const lockPackage: LockPackage = isRemoval ? previousLockPackage! : currentLockPackage!;
-        const requirementFile: LockPackage = isRemoval ? previousRequirementFile! : currentRequirementFile!;
+        const lockPackage: LockPackage = isRemoval ? previousLockPackage : currentLockPackage;
+        const requirementFile: LockPackage = isRemoval ? previousRequirementFile : currentRequirementFile;
 
         const packageInfos = await this.packageManager.getPackageInfos(lockPackage, requirementFile);
 
@@ -292,9 +292,9 @@ export default class PackageVersionDiffListCreator<
         } else if (previous.major !== current.major) {
             return 'MAJOR';
         } else if (previous.minor !== current.minor) {
-            return 'MINOR'
+            return 'MINOR';
         } else if (previous.patch !== current.patch) {
-            return 'PATCH'
+            return 'PATCH';
         }
 
         return 'UNKNOWN';

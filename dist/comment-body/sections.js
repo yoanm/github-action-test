@@ -9,7 +9,7 @@ function createRiskyUpdatesBody(packagesDiff) {
     if (0 === totalCount) {
         return '';
     }
-    return utils_1.createDiffTableBody([majorUpdateList, unknownUpdateList], totalCount + ' risky update' + (totalCount > 1 ? 's' : ''), ['Name', 'From', '  ', 'To'], [':---', '---:', ':---:', '---:'], item => [
+    return utils_1.createDiffTableBody([majorUpdateList, unknownUpdateList], `${totalCount} risky update${totalCount > 1 ? 's' : ''}`, ['Name', 'From', '  ', 'To'], [':---', '---:', ':---:', '---:'], item => [
         utils_1.displayName(item),
         utils_1.displayVersion(item.previous),
         utils_1.getDirectionIcon(item),
@@ -22,7 +22,7 @@ function createMinorVersionUpdatesBody(packagesDiff) {
     if (0 === list.length) {
         return '';
     }
-    return utils_1.createDiffTableBody([list], list.length + ' minor version update' + (list.length > 1 ? 's' : ''), ['Name', 'From', '  ', 'To'], [':---', '---:', ':---:', '---:'], item => [
+    return utils_1.createDiffTableBody([list], `${list.length} minor version update${list.length > 1 ? 's' : ''}`, ['Name', 'From', '  ', 'To'], [':---', '---:', ':---:', '---:'], item => [
         utils_1.displayName(item),
         utils_1.displayVersion(item.previous),
         utils_1.getDirectionIcon(item),
@@ -35,7 +35,7 @@ function createPatchVersionUpdatesBody(packagesDiff) {
     if (0 === list.length) {
         return '';
     }
-    return utils_1.createDiffTableBody([list], list.length + ' patch version update' + (list.length > 1 ? 's' : ''), ['Name', 'From', '  ', 'To'], [':---', '---:', ':---:', '---:'], item => [
+    return utils_1.createDiffTableBody([list], `${list.length} patch version update${list.length > 1 ? 's' : ''}`, ['Name', 'From', '  ', 'To'], [':---', '---:', ':---:', '---:'], item => [
         utils_1.displayName(item),
         utils_1.displayVersion(item.previous),
         utils_1.getDirectionIcon(item),
@@ -50,8 +50,7 @@ function createAddedAndRemovedBody(packagesDiff) {
     const addedPackageList = packagesDiff.filter(utils_1.isDiffTypeFilter('ADDED'));
     const removedPackageList = packagesDiff.filter(utils_1.isDiffTypeFilter('REMOVED'));
     // Can't use createDiffTableBody as there two differents type, AddedPackageDiff and RemovedPackageDiff types !
-    return utils_1.createDiffTableBody([addedPackageList, removedPackageList], addedPackageList.length + ' package' + (addedPackageList.length > 1 ? 's' : '') + ' added'
-        + ' & ' + removedPackageList.length + ' package' + (removedPackageList.length > 1 ? 's' : '') + ' removed', ['Name', 'Version'], [':---', ':---'], item => {
+    return utils_1.createDiffTableBody([addedPackageList, removedPackageList], `${addedPackageList.length} package${addedPackageList.length > 1 ? 's' : ''} added & ${removedPackageList.length} package${removedPackageList.length > 1 ? 's' : ''} removed`, ['Name', 'Version'], [':---', ':---'], item => {
         if (utils_1.isDiffTypeFilter('ADDED')(item)) {
             return ['➕', utils_1.displayName(item), utils_1.displayVersion(item.current)];
         }
@@ -63,7 +62,7 @@ function createUnknownBody(packagesDiff) {
     if (0 === packagesDiff.length) {
         return '';
     }
-    return utils_1.createDiffTableBody([packagesDiff], packagesDiff.length + ' unknown operation' + (packagesDiff.length > 1 ? 's' : ''), ['Name'], [':---'], item => [utils_1.displayName(item)]);
+    return utils_1.createDiffTableBody([packagesDiff], `${packagesDiff.length} unknown operation${packagesDiff.length > 1 ? 's' : ''}`, ['Name'], [':---'], item => [utils_1.displayName(item)]);
 }
 exports.createUnknownBody = createUnknownBody;
 function createCaptionBody() {

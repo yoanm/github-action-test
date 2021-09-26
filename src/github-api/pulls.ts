@@ -1,5 +1,5 @@
-import api from "./index";
 import {Comment, File} from "GithubApi";
+import api from "./index";
 
 export async function getFile(ownerName: string, repoName: string, prId: number, filename: string): Promise<File | undefined> {
     const pageIterator = api.paginate.iterator(
@@ -34,7 +34,7 @@ export async function getLastCommentMatching(ownerName: string, repoName: string
     );
 
     for await (const response of pageIterator) {
-        const comment = response.data.find(item => item.body && bodyMatch.test(item.body))
+        const comment = response.data.find(item => item.body && bodyMatch.test(item.body));
 
         if (comment !== undefined) {
             return comment;

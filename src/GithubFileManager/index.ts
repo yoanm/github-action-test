@@ -1,6 +1,6 @@
-import {getFile as getPRFile} from "../github-api/pulls";
-import {getFile as getFileContent, getFileBetween} from "../github-api/contents";
 import {File} from "GithubApi";
+import {getFile as getFileContent, getFileBetween} from "../github-api/contents";
+import {getFile as getPRFile} from "../github-api/pulls";
 
 
 export class GithubFileManager {
@@ -11,11 +11,11 @@ export class GithubFileManager {
         repositoryOwner: string,
         repositoryName: string
     ) {
-        this.repositoryOwner = repositoryOwner
-        this.repositoryName = repositoryName
+        this.repositoryOwner = repositoryOwner;
+        this.repositoryName = repositoryName;
     }
 
-    public async getPRFile(filename: string, prNumber: number, fileStatusFilter : string[] | undefined = undefined): Promise<File | undefined> {
+    public async getPRFile(filename: string, prNumber: number, fileStatusFilter: string[] | undefined = undefined): Promise<File | undefined> {
         // Get updated files from PR and not from last commit !
         // action has to be executed if any commit from the PR update the file, not only the last commit
         const file = await getPRFile(
@@ -32,7 +32,7 @@ export class GithubFileManager {
         return (await this.filterFiles(filename, [file], fileStatusFilter)).pop();
     }
 
-    public async getFileBetween(filename: string, baseSha: string, headSha: string, fileStatusFilter : string[] | undefined = undefined): Promise<File | undefined> {
+    public async getFileBetween(filename: string, baseSha: string, headSha: string, fileStatusFilter: string[] | undefined = undefined): Promise<File | undefined> {
         const file = await getFileBetween(
             this.repositoryOwner,
             this.repositoryName,
@@ -48,10 +48,9 @@ export class GithubFileManager {
         return (await this.filterFiles(filename, [file], fileStatusFilter)).pop();
     }
 
-    public async filterFiles(filename: string, fileList: File[], fileStatusFilter : string[] | undefined = undefined): Promise<File[]> {
+    public async filterFiles(filename: string, fileList: File[], fileStatusFilter: string[] | undefined = undefined): Promise<File[]> {
         const result = [];
-        for (let i = 0; i < fileList.length; i++) {
-            const file = fileList[i];
+        for (const file of fileList) {
             if (filename === file.filename && fileStatusFilter ? fileStatusFilter.includes(file.status) : true) {
                 result.push(file);
             }

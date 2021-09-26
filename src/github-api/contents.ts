@@ -1,5 +1,6 @@
-import api from "./index";
+import {RequestError} from "@octokit/request-error";
 import {Content, File, FileContent} from "GithubApi";
+import api from "./index";
 
 
 export async function get(ownerName: string, repoName: string, path: string, commitHash: string): Promise<Content | undefined> {
@@ -13,7 +14,7 @@ export async function get(ownerName: string, repoName: string, path: string, com
 
         return data;
     } catch (e) {
-        if ((e as any).status !== undefined && (e as any).status === 404) {
+        if ((e as RequestError).status !== undefined && (e as RequestError).status === 404) {
             return undefined;
         }
 
@@ -54,7 +55,7 @@ export async function getFileBetween(
     );
 
     for await (const response of pageIterator) {
-        const file = response.data.files?.find(item => item.filename === filename) || undefined
+        const file = response.data.files?.find(item => item.filename === filename) || undefined;
 
         if (file !== undefined) {
             return file;

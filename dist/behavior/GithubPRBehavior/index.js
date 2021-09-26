@@ -13,13 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GithubPRBehavior = void 0;
-const logger_1 = __importDefault(require("../logger"));
-const GithubPRCommentManager_1 = require("../GithubPRCommentManager");
-const GithubFileManager_1 = require("../GithubFileManager");
-const PackageVersionDiffListCreator_1 = __importDefault(require("../PackageVersionDiffListCreator"));
-const utils_1 = require("../utils");
+const GithubFileManager_1 = require("../../GithubFileManager");
+const GithubPRCommentManager_1 = require("../../GithubPRCommentManager");
+const logger_1 = __importDefault(require("../../logger"));
+const PackageVersionDiffListCreator_1 = __importDefault(require("../../PackageVersionDiffListCreator"));
+const utils_1 = require("../../utils");
 class GithubPRBehavior {
-    constructor(repositoryOwner, repositoryName, payload, packageManagerType, postComment, force) {
+    constructor(repositoryOwner, repositoryName, payload, packageManagerType, postResults, force) {
         if (undefined === payload) {
             throw new Error('Pull Request context is undefined !');
         }
@@ -29,7 +29,7 @@ class GithubPRBehavior {
         this.force = force;
         this.packageManager = utils_1.packageManagerFactory(packageManagerType);
         this.githubFileManager = new GithubFileManager_1.GithubFileManager(repositoryOwner, repositoryName);
-        this.githubCommentManager = new GithubPRCommentManager_1.GithubPRCommentManager(repositoryOwner, repositoryName, this.prId, packageManagerType, postComment);
+        this.githubCommentManager = new GithubPRCommentManager_1.GithubPRCommentManager(repositoryOwner, repositoryName, this.prId, packageManagerType, postResults);
     }
     execute() {
         return __awaiter(this, void 0, void 0, function* () {

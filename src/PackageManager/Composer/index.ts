@@ -1,7 +1,7 @@
-import PackageManager from "../index";
 import {ComposerFile, ComposerLockFile, ComposerLockPackage, MetaComposerLockPackage} from "Composer";
-import {PackageVersion} from "PackageVersionDiffListCreator";
 import {PackageInfos, PackageList} from "PackageManager";
+import {PackageVersion} from "PackageVersionDiffListCreator";
+import PackageManager from "../index";
 
 export default class Composer extends PackageManager<
     ComposerFile,
@@ -12,15 +12,15 @@ export default class Composer extends PackageManager<
         super('composer.json', 'composer.lock');
     }
 
-    async loadLockFile(content: string): Promise<ComposerLockFile> {
+    public async loadLockFile(content: string): Promise<ComposerLockFile> {
         return JSON.parse(content) as ComposerLockFile;
     }
 
-    async loadRequirementFile(content: string): Promise<ComposerFile> {
+    public async loadRequirementFile(content: string): Promise<ComposerFile> {
         return JSON.parse(content) as ComposerFile;
     }
 
-    async extractLockPackageList(lockFile: ComposerLockFile): Promise<PackageList<MetaComposerLockPackage>> {
+    public async extractLockPackageList(lockFile: ComposerLockFile): Promise<PackageList<MetaComposerLockPackage>> {
         const reduceFn = (isDevRequirement: boolean) => (
             acc: PackageList<MetaComposerLockPackage>,
             item: ComposerLockPackage
@@ -43,7 +43,7 @@ export default class Composer extends PackageManager<
         );
     }
 
-    async extractPackageVersion(lockPackage: MetaComposerLockPackage): Promise<PackageVersion> {
+    public async extractPackageVersion(lockPackage: MetaComposerLockPackage): Promise<PackageVersion> {
         if (/^v?\d+\.\d+\.\d+/.test(lockPackage.version)) {
             const match = this.sanitizeTag(lockPackage.version)
                 .match(/^(\d+)\.(\d+)\.(\d+)(.*)?/) as RegExpMatchArray;
@@ -56,7 +56,7 @@ export default class Composer extends PackageManager<
                 minor: match[2] && match[2].length ? match[2] : null,
                 patch: match[3] && match[3].length ? match[3] : null,
                 extra: match[4] && match[4].length ? match[4] : null,
-            }
+            };
         }
 
         // CommitPackageVersion
@@ -66,10 +66,10 @@ export default class Composer extends PackageManager<
             isDev: true, // Commit version are always dev version (else it's a tag)
             type: 'COMMIT',
             commit: lockPackage.dist.reference
-        }
+        };
     }
 
-    async getPackageInfos(lockPackage: MetaComposerLockPackage, requirementFile: ComposerFile): Promise<PackageInfos> {
+    public async getPackageInfos(lockPackage: MetaComposerLockPackage, requirementFile: ComposerFile): Promise<PackageInfos> {
         const rootRequirements = requirementFile[lockPackage.isDevRequirement ? 'require-dev' : 'require'] || {};
         const isRootRequirement = undefined !== rootRequirements[lockPackage.name];
 
@@ -80,7 +80,7 @@ export default class Composer extends PackageManager<
         });
     }
 
-    public sanitizeTag(version: string): string {
+    protected sanitizeTag(version: string): string {
         return 'v' === version.charAt(0)
             ? version.substr(1) // Remove 'v' prefix if it exists
             : version

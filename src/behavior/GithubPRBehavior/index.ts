@@ -1,20 +1,21 @@
-import {PackageManagerType} from "PackageManager";
-import {File} from "GithubApi";
-import logger from "../logger";
-import {PackageVersionDiff} from "PackageVersionDiffListCreator";
-import {GithubPRCommentManager} from "../GithubPRCommentManager";
-import {GithubFileManager} from "../GithubFileManager";
-import PackageManager from "../PackageManager";
-import PackageVersionDiffListCreator from "../PackageVersionDiffListCreator";
-import {packageManagerFactory} from "../utils";
 import {WebhookPayload} from "@actions/github/lib/interfaces";
+import {Behavior} from "Behavior";
+import {File} from "GithubApi";
+import {LockFile, LockPackage, PackageManagerType, RequirementFile} from "PackageManager";
+import {PackageVersionDiff} from "PackageVersionDiffListCreator";
+import {GithubFileManager} from "../../GithubFileManager";
+import {GithubPRCommentManager} from "../../GithubPRCommentManager";
+import logger from "../../logger";
+import PackageManager from "../../PackageManager";
+import PackageVersionDiffListCreator from "../../PackageVersionDiffListCreator";
+import {packageManagerFactory} from "../../utils";
 
-export class GithubPRBehavior {
+export class GithubPRBehavior implements Behavior{
     private readonly prId: number;
     private readonly baseCommitSha: string;
     private readonly headCommitSha: string;
     private readonly force: boolean;
-    private readonly packageManager: PackageManager<any, any, any>;
+    private readonly packageManager: PackageManager<RequirementFile, LockFile, LockPackage>;
     private readonly githubFileManager: GithubFileManager;
     private readonly githubCommentManager: GithubPRCommentManager;
 
@@ -23,7 +24,7 @@ export class GithubPRBehavior {
         repositoryName: string,
         payload: WebhookPayload['pull_request'],
         packageManagerType: PackageManagerType,
-        postComment: boolean,
+        postResults: boolean,
         force: boolean,
     ) {
         if (undefined === payload) {
@@ -41,7 +42,7 @@ export class GithubPRBehavior {
             repositoryName,
             this.prId,
             packageManagerType,
-            postComment
+            postResults
         );
     }
 

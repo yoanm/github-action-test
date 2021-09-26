@@ -4,14 +4,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.packageManagerFactory = exports.behaviorFactory = void 0;
-const Composer_1 = __importDefault(require("./PackageManager/Composer"));
-const GithubPRBehavior_1 = require("./GithubPRBehavior");
+const GithubPRBehavior_1 = require("./behavior/GithubPRBehavior");
 const logger_1 = __importDefault(require("./logger"));
-function behaviorFactory(contextType, repositoryData, webHookPayload, packageManagerType, postComment, force) {
+const Composer_1 = __importDefault(require("./PackageManager/Composer"));
+function behaviorFactory(contextType, repositoryData, webHookPayload, packageManagerType, postResults, force) {
     switch (contextType) {
         case 'PR':
             logger_1.default.debug('Using PR behavior!');
-            return new GithubPRBehavior_1.GithubPRBehavior(repositoryData.owner.login, repositoryData.name, webHookPayload.pull_request, packageManagerType, postComment, force);
+            return new GithubPRBehavior_1.GithubPRBehavior(repositoryData.owner.login, repositoryData.name, webHookPayload.pull_request, packageManagerType, postResults, force);
     }
     throw new Error('Context type "' + contextType + '" is not supported !');
 }
@@ -22,6 +22,6 @@ function packageManagerFactory(packageManagerType) {
             logger_1.default.debug('Using Composer package manager!');
             return new Composer_1.default();
     }
-    throw new Error('Package manager type "' + packageManagerType + '" is not supported !');
+    throw new Error(`Package manager type "${packageManagerType}" is not supported !`);
 }
 exports.packageManagerFactory = packageManagerFactory;

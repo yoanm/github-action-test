@@ -1,16 +1,16 @@
-import {PackageManagerType} from "PackageManager";
 import {Comment} from "GithubApi";
-import {createComment, deleteComment, getLastCommentMatching} from "../github-api/pulls";
-import createBody, {COMMENT_COMMIT_REGEXP, COMMENT_HEADER, commentPkgTypeFactory} from "../comment-body";
-import logger from "../logger";
+import {PackageManagerType} from "PackageManager";
 import {PackageVersionDiff} from "PackageVersionDiffListCreator";
+import createBody, {COMMENT_COMMIT_REGEXP, COMMENT_HEADER, commentPkgTypeFactory} from "../comment-body";
+import {createComment, deleteComment, getLastCommentMatching} from "../github-api/pulls";
+import logger from "../logger";
 
 export class GithubPRCommentManager {
     private readonly repositoryOwner: string;
     private readonly repositoryName: string;
     private readonly prId: number;
     private readonly packageManagerType: PackageManagerType;
-    private readonly postComment: boolean;
+    private readonly postResults: boolean;
     private previousComment: Comment & { commitRef: string } | undefined | null = null;
 
     constructor(
@@ -18,17 +18,17 @@ export class GithubPRCommentManager {
         repositoryName: string,
         prId: number,
         packageManagerType: PackageManagerType,
-        postComment: boolean,
+        postResults: boolean,
     ) {
         this.repositoryOwner = repositoryOwner;
         this.repositoryName = repositoryName;
         this.prId = prId;
         this.packageManagerType = packageManagerType;
-        this.postComment = postComment;
+        this.postResults = postResults;
     }
 
-    public  async getPrevious(): Promise<Comment & { commitRef: string } | undefined> {
-        if (!this.postComment) {
+    public async getPrevious(): Promise<Comment & { commitRef: string } | undefined> {
+        if (!this.postResults) {
             return undefined;
         }
         if (this.previousComment === null) {
@@ -44,7 +44,7 @@ export class GithubPRCommentManager {
                 ),
             );
 
-            const match = comment?.body?.match(new RegExp(COMMENT_COMMIT_REGEXP))
+            const match = comment?.body?.match(new RegExp(COMMENT_COMMIT_REGEXP));
 
             if (!comment || !match) {
                 this.previousComment = undefined;
@@ -52,7 +52,7 @@ export class GithubPRCommentManager {
                 this.previousComment = {
                     ...comment,
                     commitRef: match[1],
-                }
+                };
             }
         }
 
@@ -63,14 +63,14 @@ export class GithubPRCommentManager {
         commitSha: string,
         packagesDiff: PackageVersionDiff[],
     ): Promise<void> {
-        if (!this.postComment) {
+        if (!this.postResults) {
             return;
         }
 
         const commentBody = createBody(this.packageManagerType, commitSha, packagesDiff);
         const previousComment = await this.getPrevious();
         if (previousComment) {
-            // Remove first line of each bodies as they contains commit informations (and so can't never match)
+            // Remove first line of each bodies as they contains commit information (and so can't never match)
             const previousBodyToCompare = previousComment.body?.substring(previousComment.body?.indexOf("\n") + 1);
             const newBodyToCompare = commentBody.substring(commentBody.indexOf("\n") + 1);
             if (previousBodyToCompare === newBodyToCompare) {

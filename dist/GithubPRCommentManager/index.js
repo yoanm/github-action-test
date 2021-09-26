@@ -32,22 +32,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GithubPRCommentManager = void 0;
-const pulls_1 = require("../github-api/pulls");
 const comment_body_1 = __importStar(require("../comment-body"));
+const pulls_1 = require("../github-api/pulls");
 const logger_1 = __importDefault(require("../logger"));
 class GithubPRCommentManager {
-    constructor(repositoryOwner, repositoryName, prId, packageManagerType, postComment) {
+    constructor(repositoryOwner, repositoryName, prId, packageManagerType, postResults) {
         this.previousComment = null;
         this.repositoryOwner = repositoryOwner;
         this.repositoryName = repositoryName;
         this.prId = prId;
         this.packageManagerType = packageManagerType;
-        this.postComment = postComment;
+        this.postResults = postResults;
     }
     getPrevious() {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            if (!this.postComment) {
+            if (!this.postResults) {
                 return undefined;
             }
             if (this.previousComment === null) {
@@ -69,13 +69,13 @@ class GithubPRCommentManager {
     createNewIfNeeded(commitSha, packagesDiff) {
         var _a, _b;
         return __awaiter(this, void 0, void 0, function* () {
-            if (!this.postComment) {
+            if (!this.postResults) {
                 return;
             }
             const commentBody = comment_body_1.default(this.packageManagerType, commitSha, packagesDiff);
             const previousComment = yield this.getPrevious();
             if (previousComment) {
-                // Remove first line of each bodies as they contains commit informations (and so can't never match)
+                // Remove first line of each bodies as they contains commit information (and so can't never match)
                 const previousBodyToCompare = (_a = previousComment.body) === null || _a === void 0 ? void 0 : _a.substring(((_b = previousComment.body) === null || _b === void 0 ? void 0 : _b.indexOf("\n")) + 1);
                 const newBodyToCompare = commentBody.substring(commentBody.indexOf("\n") + 1);
                 if (previousBodyToCompare === newBodyToCompare) {
